@@ -2,6 +2,7 @@ import js
 p5 = js.window
 program_state = 'start'
 defalultFt = p5.loadFont('PressStart2P.otf')
+rain_state = 0
 
 
 #snake class
@@ -54,11 +55,35 @@ class Lightening(Projectile):
     def draw(self):
         p5.image(self.light_img, self.x, self.y)
 
+class Backdrop:  
+    x = 0
+    y = 0
+    speed = 0
 
+    def __init__(self, x = 0, y = 0, speed = 0):
+        self.x = x
+        self.y = y
+        self.speed = speed
+
+    def update(self):
+        if(self.y < p5.height + 25):
+            self.y += self.speed
+        else:
+            self.y = -25
+
+    def draw(self):
+        p5.rect(self.x, self.y, 2, 5) 
+
+sprite_list = []  # empty list
+selected_index = 0
+
+
+    
 #setup
 def setup():
     p5.createCanvas(300, 300) 
     print('finished setup') 
+
 
 
 snake = Snake()
@@ -72,13 +97,40 @@ life = 2
 #draw
 def draw():
 
+    
     global program_state
     global score
     global life
-    
+    global sprite_list
+    global rain_state
+
+    if (rain_state == 0):
+        sprite = Backdrop(x = 100, y = 100, speed = 1)  # create a Sprite object
+        sprite_list.append(sprite)  # append sprite to sprite_list
+        rain_state = 1
+
+    if (rain_state ==1):
+        sprite = Backdrop(x = 200, y = 200, speed = 1.5)  # create another Sprite object
+        sprite_list.append(sprite)  # append sprite to sprite_list
+        rain_state = 2
+
+        
     p5.background(255)
     background.draw()
     snake.draw()
+
+    p5.fill(0)        
+    p5.noStroke()
+    # draw each item of number_list using a loop:
+    for i in range(len(sprite_list)):
+        if((i % 2) == 0):
+            p5.fill(255, 0, 0)
+        else:
+            p5.fill(0)
+        
+        sprite = sprite_list[i]  # get sprite at index i from sprite_list
+        sprite.update()
+        sprite.draw()
 
     disRain = p5.dist(raindrop.x, raindrop.y, snake.x, snake.y)
     disLight = p5.dist(light.x, light.y, snake.x, snake.y)

@@ -66,13 +66,13 @@ class Backdrop:
         self.speed = speed
 
     def update(self):
-        if(self.y < p5.height + 25):
+        if(self.y < 225):
             self.y += self.speed
         else:
-            self.y = -25
+            self.y = 80
 
     def draw(self):
-        p5.rect(self.x, self.y, 2, 5) 
+        p5.rect(self.x, self.y, 2, 10) 
 
 sprite_list = []  # empty list
 selected_index = 0
@@ -102,35 +102,15 @@ def draw():
     global score
     global life
     global sprite_list
-    global rain_state
 
-    if (rain_state == 0):
-        sprite = Backdrop(x = 100, y = 100, speed = 1)  # create a Sprite object
-        sprite_list.append(sprite)  # append sprite to sprite_list
-        rain_state = 1
-
-    if (rain_state ==1):
-        sprite = Backdrop(x = 200, y = 200, speed = 1.5)  # create another Sprite object
-        sprite_list.append(sprite)  # append sprite to sprite_list
-        rain_state = 2
 
         
     p5.background(255)
     background.draw()
     snake.draw()
 
-    p5.fill(0)        
-    p5.noStroke()
-    # draw each item of number_list using a loop:
-    for i in range(len(sprite_list)):
-        if((i % 2) == 0):
-            p5.fill(255, 0, 0)
-        else:
-            p5.fill(0)
-        
-        sprite = sprite_list[i]  # get sprite at index i from sprite_list
-        sprite.update()
-        sprite.draw()
+
+    raineffect()
 
     disRain = p5.dist(raindrop.x, raindrop.y, snake.x, snake.y)
     disLight = p5.dist(light.x, light.y, snake.x, snake.y)
@@ -194,21 +174,48 @@ def draw():
         p5.fill(35, 38, 79)
         p5.textFont(defalultFt)
         p5.textSize(18)
-        p5.text('Game Over!', 120, 115)
+        p5.text('Game Over!', 65, 115)
         p5.textSize(10)
-        p5.text('press any key to continue.', 20,130) 
-        p5.text('press any key to continue.', 20,130) 
-
-        p5.fill(255)
-        p5.textFont(defalultFt)
-        p5.textSize(10)
-        p5.text('Score:' + str(score), 15, 25)
-        p5.text('Life:x' + str(life), 218, 25)
+        p5.text('Score: '+ str(score), 120,130) 
 
 
 
 
+def raineffect():
+    global rain_state
 
+    if (rain_state == 0):
+        sprite = Backdrop(x = 60, y = 60, speed = 1)  # create a Sprite object
+        sprite_list.append(sprite)  # append sprite to sprite_list
+        rain_state = 1
+
+    if (rain_state ==1):
+        sprite = Backdrop(x = 120, y = 120, speed = 1.5)  # create another Sprite object
+        sprite_list.append(sprite)  # append sprite to sprite_list
+        rain_state = 2
+
+    if (rain_state ==2):
+        sprite = Backdrop(x = 180, y = 180, speed = 1.2)  # create another Sprite object
+        sprite_list.append(sprite)  # append sprite to sprite_list
+        rain_state = 3
+
+    if (rain_state ==3):
+        sprite = Backdrop(x = 240, y = 240, speed = 1.7)  # create another Sprite object
+        sprite_list.append(sprite)  # append sprite to sprite_list
+        rain_state = 4
+       
+    p5.noStroke()
+    # draw each item of number_list using a loop:
+    for i in range(len(sprite_list)):
+        if((i % 2) == 0):
+            p5.fill(135, 150, 153)
+        else:
+            p5.fill(109, 122, 125)
+        
+        sprite = sprite_list[i]  # get sprite at index i from sprite_list
+        sprite.update()
+        sprite.draw()
+        
 def resetProj(proj):
     proj.y = 73
     proj.x = p5.random(20,280)
@@ -239,4 +246,3 @@ def mousePressed(event):
 
 def mouseReleased(event):
     pass
-    

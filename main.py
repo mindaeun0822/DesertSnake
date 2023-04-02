@@ -18,7 +18,7 @@ class Snake:
         if (program_state == 'start' or program_state == 'play'):
             p5.image(self.snake_img, self.x, self.y)
 
-        if (program_state == 'pause' or program_state == 'gameOver'):
+        if (program_state == 'pause' or program_state == 'dead'):
             p5.image(self.snakedead_img, self.x-29, self.y-25)
 
 
@@ -88,8 +88,8 @@ def setup():
 
 snake = Snake()
 background = Background()
-raindrop = Raindrop(p5.random(1,300),73,0.5)
-light = Lightening(p5.random(1,300), 73, 0.5)
+raindrop = Raindrop(p5.random(1,300),73,1.5)
+light = Lightening(p5.random(1,300), 73, 1.5)
 
 score = 0
 life = 2
